@@ -16,7 +16,7 @@ run () {
 			bash -c "$i" &> /dev/null &
 		done
 	fi
-	xdotool search --onlyvisible --name "runfuzzy" windowunmap
+	xdotool search --onlyvisible --name "run.shfuzzy" windowunmap
 }
 
 while true

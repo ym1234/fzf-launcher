@@ -7,7 +7,7 @@ drun () {
 	do
 		$(grep '^Exec' "$i" | tail -1 | sed 's/^Exec=//' | sed 's/%.//' | sed 's/^"//g' | sed 's/" *$//g') &
 	done
-	xdotool search --onlyvisible --name "drunfuzzy" windowunmap
+	xdotool search --onlyvisible --name "drun.shfuzzy" windowunmap
 }
 
 while true

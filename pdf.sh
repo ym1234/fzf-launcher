@@ -3,9 +3,8 @@ func () {
 	local files
 	[[ -n "$file" ]] && readarray -t files <<< "$file"
 
-	echo "${files[@]}"
 	nohup zathura "${files[@]}" &> /dev/null &
-	xdotool search --onlyvisible --name "pdffuzzy" windowunmap
+	xdotool search --onlyvisible --name "pdf.shfuzzy" windowunmap
 }
 
 while true
