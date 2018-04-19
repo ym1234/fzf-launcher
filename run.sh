@@ -21,7 +21,7 @@ run () {
 	[ -n "$ZSH_VERSION"  ] && func="zsh_list_commands"
 	[ -z "$func" ] && func="posix_list_commands"
 
-	$func | fzf --print-query --reverse --multi | while read -r command
+	$func | fzf --print-query --reverse --multi | sort -u | while read -r command
 	do
 		[ -z "$command" ] && continue
 
