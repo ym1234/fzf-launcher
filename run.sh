@@ -1,21 +1,35 @@
+posix_list_commands() {
+	COMMANDS=$(printf "%s" "$PATH" | xargs -d : -I {} find {} -maxdepth 1 \
+		-executable -type f -printf '%P\n' 2> /dev/null)
+	printf "%s\\n" "$COMMANDS" | sort -u
+}
+
+bash_list_commands() {
+	compgen -c
+}
+
+zsh_list_commands() {
+	# shellcheck disable=SC2154
+    printf "%s\\n" "${(k)commands[@]}"
+}
+
 run () {
-	choice=$(compgen -c | fzf --print-query --reverse --multi)
-	exitstatus=$?
+	# Checking BASH_VERSION and ZSH_VERSION isn't fool-proof since
+	# some smart-ass might set it in the environment. For "mugh speed"
+	# it's probably good enough though.
+	[ -n "$BASH_VERSION" ] && func="bash_list_commands"
+	[ -n "$ZSH_VERSION"  ] && func="zsh_list_commands"
+	[ -z "$func" ] && func="posix_list_commands"
 
-	local choices
-	[[ -n "$choice" ]] && readarray -t choices <<< "$choice"
+	$func | fzf --print-query --reverse --multi | while read -r command
+	do
+		[ -z "$command" ] && continue
 
-	if  [[ exitstatus -eq 1 ]]; then
-		for i in "${choices[@]}"
-		do
-			nohup bash -c "$i" &> /dev/null &
-		done
-	elif [[ exitstatus -eq 0 ]]; then
-		for i in "${choices[@]:1:${#choices}}"
-		do
-			bash -c "$i" &> /dev/null &
-		done
-	fi
+		# SHELL should be set but explicitely set it just in case
+		[ -z "$SHELL" ] && SHELL="/bin/sh"
+		nohup "$SHELL" -c "$command" > /dev/null 2>&1 &
+	done
+
 	xdotool search --onlyvisible --name "run.shfuzzy" windowunmap
 }
 
