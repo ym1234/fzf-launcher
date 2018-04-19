@@ -5,7 +5,7 @@ format_xdg_data_dirs() {
 drun () {
     [ -z "$XDG_DATA_DIRS" ] && XDG_DATA_DIRS="/usr/share:$HOME/.local/share"
     # shellcheck disable=SC2046
-	find $(format_xdg_data_dirs) -iname "*.desktop" | fzf --reverse --multi --preview  'cat {}' | while read -r command
+	find $(format_xdg_data_dirs) -iname "*.desktop" 2> /dev/null | fzf --reverse --multi --preview  'cat {}' | while read -r command
 	do
 		[ -z "$command" ] && continue
 
