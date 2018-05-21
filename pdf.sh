@@ -6,7 +6,7 @@ func () {
 		nohup zathura "$book" > /dev/null 2>&1 &
 	done
 
-	xdotool search --onlyvisible --name "pdffuzzy" windowunmap
+	xdotool getactivewindow windowunmap
 }
 
 while true

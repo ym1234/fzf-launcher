@@ -1,6 +1,6 @@
 func () {
 	greenclip print | fzf --reverse | xclip -in -selection clipboard
-	xdotool search --onlyvisible --name "clipboardfuzzy" windowunmap
+	xdotool getactivewindow windowunmap
 }
 
 while true

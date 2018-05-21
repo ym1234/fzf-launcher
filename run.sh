@@ -30,7 +30,7 @@ run () {
 		nohup "$SHELL" -c "$command" > /dev/null 2>&1 &
 	done
 
-	xdotool search --onlyvisible --name "runfuzzy" windowunmap
+	xdotool getactivewindow windowunmap
 }
 
 while true

@@ -12,7 +12,7 @@ drun () {
 		# shellcheck disable=SC2091
 		$(grep -E '^Exec' "$command" | tail -1 | sed -e 's/^Exec=//' -e 's/%.//'  -e 's/^"//g' -e 's/" *$//g') > /dev/null 2>&1 &
 	done
-	xdotool search --onlyvisible --name "drunfuzzy" windowunmap
+	xdotool getactivewindow windowunmap
 }
 
 while true
